@@ -13,6 +13,18 @@
 ## 실습 준비
 Python 설치 후
 
+1) 가상환경 생성 및 활성화
+```
+python -m venv .venv
+
+# Mac / Linux
+source .venv/bin/activate
+
+# Windows
+.venv\Scripts\activate
+```
+
+2) 필요 패키지 설치
 ```
 pip install \
   langchain \

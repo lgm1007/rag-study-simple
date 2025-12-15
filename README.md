@@ -67,9 +67,6 @@ python src/main/ingest.py
 ![](https://i.imgur.com/aC2ePf5.png)
 
 ### 2) [qa.py](src/main/qa.py)
-```
-python src/main/qa.py
-```
 생성된 벡터 DB에서 사용자에게 받은 질문 내용을 검색하여 해당 결과를 기반으로 답변 생성
 
 ```

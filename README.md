@@ -1,16 +1,16 @@
 # 🤖 RAG MVP 실습
-### 프로젝트 개요
+## 프로젝트 개요
 - 로컬 환경에서 RAG 최소 기능 실습해보기 위한 프로젝트
 - 문서 → 검색 → LLM에게 질문하여 답변 받아보기
 
-### 기술 스택
+## 기술 스택
 - Python 3.10.14
 - LangChain
 - 벡터 DB: FAISS
 - 임베딩 모델: sentence-transformers
 - LLM: Ollama + Llama3
 
-### 실습 준비
+## 실습 준비
 Python 설치 후
 
 ```
@@ -41,3 +41,29 @@ https://ollama.com 사이트에서 OS별 앱 설치
 모델 설치 끝나면 설치 확인
 
 ![](https://i.imgur.com/bOmIvu0.png)
+
+## 실행
+### 1) [ingest.py](src/main/ingest.py)
+data/raw 경로에 들어있는 문서 내용으로 벡터 DB 생성
+
+```
+python src/main/ingest.py
+```
+
+프로젝트 루트/vector_db 경로 하위에 벡터 DB 파일이 생성되면 성공
+
+![](https://i.imgur.com/aC2ePf5.png)
+
+### 2) [qa.py](src/main/qa.py)
+```
+python src/main/qa.py
+```
+생성된 벡터 DB에서 사용자에게 받은 질문 내용을 검색하여 해당 결과를 기반으로 답변 생성
+
+```
+python src/main/qa.py
+```
+
+실행 예시
+
+![](https://i.imgur.com/NUSeM4J.png)

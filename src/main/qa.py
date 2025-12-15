@@ -45,9 +45,6 @@ def main():
             print("\nEOF 감지: 종료합니다.")
             break
 
-        if raw in None:
-            continue
-
         q = str(raw).strip()
         if not q:
             continue

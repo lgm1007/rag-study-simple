@@ -30,7 +30,7 @@ def build_prompt(context: str, question: str) -> str:
 
 def main():
     # 1) 임베딩/DB 로드
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-m3")
     db = FAISS.load_local(DB_DIR, embeddings, allow_dangerous_deserialization=True)
 
     # 2) LLM (Ollama)

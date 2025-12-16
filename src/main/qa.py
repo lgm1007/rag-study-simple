@@ -65,7 +65,11 @@ def main():
         print("\nA> ", answer)
         print("\n--- (검색된 컨텍스트) ---")
         for i, d in enumerate(retrieved, 1):
-            print(f"[{i}] {d.page_content}")
+            source = d.metadata.get("source", "")
+            page = d.metadata.get("page", None)
+            page_str = f" (page {page})" if page is not None else ""
+            preview = d.page_content.replace("\n", " ")[:160]
+            print(f"[{i}] {source}{page_str} | {preview}")
         print("------------------------\n")
 
 if __name__ == "__main__":

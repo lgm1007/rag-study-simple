@@ -1,0 +1,7 @@
+langchain
+langchain-community
+langchain-ollama
+faiss-cpu
+tiktoken
+sentence-transformers
+pypdf

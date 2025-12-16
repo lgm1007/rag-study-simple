@@ -7,7 +7,7 @@
 - Python 3.10.14
 - LangChain
 - 벡터 DB: FAISS
-- 임베딩 모델: sentence-transformers
+- 임베딩 모델: Hugging Face [BAAI/bge-m3](https://huggingface.co/BAAI/bge-m3)
 - LLM: Ollama + Llama3
 
 ## 실습 준비

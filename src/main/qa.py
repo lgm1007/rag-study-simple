@@ -52,7 +52,12 @@ def main():
             break
 
         # 4) 검색
-        retrieved = db.similarity_search(q, k=4)
+        retrieved = db.max_marginal_relevance_search( # MMR 적용
+            q,
+            k=5, # 최종 반환 개수
+            fetch_k=30, # 후보 풀
+            lambda_mult=0.6 # 질문과의 유사도 (1에 가까울수록 질문과 얼마나 비슷한지를 중요시함)
+        )
         context = "\n\n".join([f"- {d.page_content}" for d in retrieved])
 
         # 5) 생성

@@ -16,6 +16,7 @@ SYSTEM_PROMPT = """
     2) 주어진 [컨텍스트]에 근거해서만 답한다.
     3) 컨텍스트에 답이 없으면 "제공된 문서에는 해당 정보가 없습니다." 라고 답한다.
     4) 추측하거나 지어내지 않는다.
+    5) 컨텍스트라는 내용은 답변에서 언급하지 않는다.
 """
 
 def build_prompt(context: str, question: str) -> str:
@@ -30,7 +31,7 @@ def build_prompt(context: str, question: str) -> str:
 
 def main():
     # 1) 임베딩/DB 로드
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-m3")
     db = FAISS.load_local(DB_DIR, embeddings, allow_dangerous_deserialization=True)
 
     # 2) LLM (Ollama)
@@ -52,7 +53,12 @@ def main():
             break
 
         # 4) 검색
-        retrieved = db.similarity_search(q, k=4)
+        retrieved = db.max_marginal_relevance_search( # MMR 적용
+            q,
+            k=5, # 최종 반환 개수
+            fetch_k=30, # 후보 풀
+            lambda_mult=0.6 # 질문과의 유사도 (1에 가까울수록 질문과 얼마나 비슷한지를 중요시함)
+        )
         context = "\n\n".join([f"- {d.page_content}" for d in retrieved])
 
         # 5) 생성

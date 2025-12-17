@@ -51,7 +51,7 @@ def main():
     splits = splitter.split_documents(docs)
 
     # 3. 로컬 임베딩
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+    embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-m3")
 
     # 4. FAISS 생성 + 저장
     db = FAISS.from_documents(splits, embeddings)

@@ -2,6 +2,11 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# Qdrant local storage
+qdrant_storage/
+
+# 로컬 벡터 스토어 캐시
 vector_db/
 
 ### IDEA ###

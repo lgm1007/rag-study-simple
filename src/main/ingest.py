@@ -108,8 +108,8 @@ def main():
     # 2. 청크 분할
     # PDF는 페이지 단위로 쪼개져 들어오는 경우가 많아서 너무 작은 chunk로 쪼개지지 않도록 기본값을 약간 크게 잡아도 됨
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=800,
-        chunk_overlap=150,
+        chunk_size=500,
+        chunk_overlap=100,
         separators=["\n\n", "\n", " ", ""]
     )
     splits = splitter.split_documents(docs)

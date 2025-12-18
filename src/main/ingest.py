@@ -4,14 +4,17 @@ from typing import List, Dict, Tuple
 
 from langchain_community.document_loaders import PyPDFLoader, TextLoader
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import FAISS
+from langchain_qdrant import QdrantVectorStore
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 # src/main/ingest.py 기준: 프로젝트 루트는 3단계 위
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DATA_DIR = os.path.join(PROJECT_ROOT, "data", "raw")
-DB_DIR = os.path.join(PROJECT_ROOT, "vector_db")
 FILES_CSV = os.path.join(PROJECT_ROOT, "data", "files.csv")
+
+# Qdrant 주소, Docker 실행 중이어야 함
+QDRANT_URL = "http://localhost:6333"
+COLLECTION_NAME = "company_docs" # 원하는 이름 변경 가능
 
 # files.csv 파일을 로딩하여 파일명 별 메타데이터 가공/추출
 def load_file_map(csv_path: str) -> Dict[str, Dict[str, str]]:
@@ -124,12 +127,18 @@ def main():
     # 3. 로컬 임베딩
     embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-m3")
 
-    # 4. FAISS 생성 + 저장
-    db = FAISS.from_documents(splits, embeddings)
-    os.makedirs(DB_DIR, exist_ok=True)
-    db.save_local(DB_DIR)
+    # 4. Qdrant 연결
+    # 컬렉션을 매번 새로 만들고 싶으면 force_recreate=True (실습)
+    # 운영 시 보통 False 로 두고 upsert
+    vector_store = QdrantVectorStore.from_documents(
+        documents=splits,
+        embedding=embeddings,
+        url=QDRANT_URL,
+        collection_name=COLLECTION_NAME,
+        force_recreate=True
+    )
 
-    print(f"Ingest 완료: 문서 {len(docs)} 개, 청크 {len(splits)} 개, 저장: {DB_DIR}")
+    print(f"Qdrant Ingest 완료: 문서 {len(docs)} 개, 청크 {len(splits)} 개, 컬렉션: {COLLECTION_NAME}")
 
 if __name__ == "__main__":
     main()

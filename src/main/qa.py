@@ -3,8 +3,8 @@ import os
 import re
 from typing import List, Dict, Tuple, Optional
 
-from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_core.messages import SystemMessage, HumanMessage
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_ollama import ChatOllama
 from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
